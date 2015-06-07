@@ -11,12 +11,13 @@ RSpec.describe Question, type: :model do
   end
 
   describe "by removing question answers removing too" do
-    question1 = FactoryGirl.create(:question, title: "Fox say", body: "What does the fox say?")
-    answer1 = FactoryGirl.create(:answer, body: "Mimimi")
-    answer2 = FactoryGirl.create(:answer, body: "Yaaaaa!")
-    question1.answers << answer1
-    question1.answers << answer2
-    it { expect { question1.destroy }.to change{ Answer.count }.by(-2) }
+    let(:question) { create(:question)}
+    let(:answer) { create_list(:answer, 2)}
+
+    it "removes answers" do
+      question.answers << answer
+      expect { question.destroy }.to change{ Answer.count }.by(-2)
+    end
   end
 
 end
