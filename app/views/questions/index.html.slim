@@ -1,6 +1,8 @@
-- title 'Questions'
+.row
+  .col-lg-12
+    h2 Questions
 
-= @questions.each do |question|
-  ul
-    li
-      = question.title
+- @questions.each do |question|
+  li = link_to question.title, question_path(question)
+
+= link_to "Ask question", new_question_path

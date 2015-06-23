@@ -5,9 +5,11 @@ RSpec.describe Question, type: :model do
   describe "validations" do
     it { should validate_presence_of :title}
     it { should validate_presence_of :body}
+    it { should validate_presence_of :user_id}
   end
   describe "assotiations" do
     it { should have_many(:answers).dependent(:destroy)}
+    it { expect(subject).to belong_to(:user) }
   end
 
   describe "by removing question answers removing too" do
