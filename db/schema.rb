@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20150617075638) do
     t.integer  "user_id"
   end
 
+  add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
   add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
