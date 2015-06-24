@@ -1,0 +1,2 @@
+= @question.answers.last.body
+= link_to 'Delete answer', question_answer_path(@question, @question.answers.last.id), method: :delete if @question.answers.last.user == current_user && signed_in?
