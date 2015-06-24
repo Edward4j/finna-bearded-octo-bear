@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 20150617075638) do
   enable_extension "hstore"
 
   create_table "answers", force: :cascade do |t|
-    t.string   "title"
     t.text     "body"
     t.integer  "question_id"
     t.datetime "created_at",  null: false
