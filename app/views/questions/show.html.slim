@@ -1,6 +1,9 @@
 h2 = @question.title
 p = @question.body
 
+.answers
+  = render @question.answers
+
 = form_for [@question, @question.answers.build], remote: true do |f|
   .form-group
     = f.label :body, 'Your Answer'
@@ -9,7 +12,3 @@ p = @question.body
     = f.submit 'Create answer', class: 'btn btn-default'
 
 = link_to 'Delete question', @question, method: :delete if @question.user == current_user
-
-.answers
-  = render 'answers'
-

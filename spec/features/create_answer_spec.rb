@@ -8,20 +8,20 @@ feature 'Create Answer', %q{
 
   given(:user) { create :user }
   given!(:question) { create :question, user: user }
+  given!(:answer1) { create :answer, question: question, user: user }
 
   scenario 'Authenticated user creates answer', js: true do
     sign_in(question.user)
 
     visit question_path(question)
+    save_and_open_page
     fill_in 'answer[body]', with: 'Some Answer body'
     click_on 'Create answer'
 
     expect(page).to have_content('Some Answer body')
+    expect(page).to have_content(answer1.body)
     expect(page).to have_content(question.title)
     expect(page).to have_content(question.body)
-    question.answers.each do |qa|
-      expect(page).to have_content(qa.body) if qa == question.answers.last
-    end
     expect(current_path).to eq(question_path(question))
   end
 
