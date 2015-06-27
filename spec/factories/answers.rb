@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :answer do
-    association :user
-    association :question
-    title "Answer MyTitle"
+    user
+    question
     body "Answer MyText"
   end
 

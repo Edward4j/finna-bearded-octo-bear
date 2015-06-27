@@ -11,7 +11,8 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     if @answer.save
-      redirect_to @question, notice: 'Your answer successfully created.'
+      flash[:notice] = 'Your answer successfully created.'
+      #redirect_to @question
     else
       flash[:notice] = "Answer body can't be blank."
       redirect_to @question
@@ -37,6 +38,6 @@ class AnswersController < ApplicationController
   end
 
   def answers_params
-    params.require(:answer).permit(:title, :body, :question_id)
+    params.require(:answer).permit(:body, :question_id)
   end
 end
