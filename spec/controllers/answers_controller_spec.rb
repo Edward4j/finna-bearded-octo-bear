@@ -31,8 +31,8 @@ describe AnswersController do
                       answer: attributes_for(:invalid_answer), format: :js }.to_not change(Answer, :count)
       end
       it 'renders create template' do
-        post :create, question_id: question, answer: attributes_for(:invalid_answer)
-        expect(response).to redirect_to question_path(question) #render_template 'questions/show'
+        post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js
+        expect(response).to render_template :create
       end
     end
   end

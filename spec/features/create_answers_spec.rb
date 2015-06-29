@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'User answer', %q{
   In order to exchange my knowledge
@@ -6,8 +6,8 @@ feature 'User answer', %q{
   I want to be able to create answers
 } do
 
-  given(:user) { create(:user) }
-  given!(:question) { create(:question) }
+  given!(:user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
 
   scenario 'Authenticated user creates answer', js: true do
     sign_in(user)

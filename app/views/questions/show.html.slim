@@ -7,8 +7,9 @@ p = @question.body
 = form_for [@question, @question.answers.build], remote: true do |f|
   .form-group
     = f.label :body, 'Your Answer'
+    .answer-errors
     = f.text_area :body, class: 'form-control'
   .form-group
     = f.submit 'Create answer', class: 'btn btn-default'
 
-= link_to 'Delete question', @question, method: :delete if @question.user == current_user
+= link_to 'Delete question', @question, method: :delete if((@question.user == current_user) and user_signed_in?)
