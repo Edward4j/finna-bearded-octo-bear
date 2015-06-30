@@ -2,7 +2,7 @@ h2 = @question.title
 p = @question.body
 
 .answers
-  = render @question.answers
+  = render 'answers'
 
 = form_for [@question, @question.answers.build], remote: true do |f|
   .form-group

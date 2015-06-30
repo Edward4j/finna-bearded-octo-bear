@@ -1,3 +1,21 @@
-- if answer.persisted?
-  li= answer.body
-  = link_to 'Delete answer', question_answer_path(@question, answer), method: :delete if answer.user == current_user && signed_in?
+/- if ((answer.user == current_user) && answer.persisted?)
+/  li= answer.body
+/  - if user_signed_in?
+/    .edit-answer
+/      p= link_to 'Edit'
+/      p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete if answer.user == current_user && signed_in?
+/        form_for [@question, answer], remote: true
+
+/- @question.answers.each do |answer|
+/  - if((answer.user == current_user) && answer.persisted?)
+/    p= answer.body
+/    - if user_signed_in?
+/      .edit-answer
+/        p= link_to 'Edit'
+/        p= link_to 'Delete answer', question_answer_path(@question, answer.id), method: :delete if((answer.user.id == current_user.id))
+
+/- if answer.persisted?
+/  li= answer.body
+/  - if user_signed_in?
+/    p= link_to 'Edit'
+/    p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete if answer.user == current_user && signed_in?

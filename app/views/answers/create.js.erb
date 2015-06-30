@@ -3,6 +3,6 @@
         $('.answer-errors').html('<%= j message %>');
     <% end %>
 <% else %>
-    $('.answers').append('<%= j render @answer %>');
+    $('.answers').append('<%= j render 'questions/answers' %>');
     $('#answer_body').val('');
 <% end %>

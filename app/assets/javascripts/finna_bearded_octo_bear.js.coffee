@@ -3,7 +3,6 @@ window.FinnaBeardedOctoBear =
   Collections: {}
   Views: {}
   Routers: {}
-  initialize: -> alert 'Hello from Backbone!'
 
-$(document).ready ->
-  FinnaBeardedOctoBear.initialize()
+#$(document).ready ->
+#  FinnaBeardedOctoBear.initialize()

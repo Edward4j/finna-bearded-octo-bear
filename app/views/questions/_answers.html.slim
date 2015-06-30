@@ -1,5 +1,34 @@
 - @question.answers.each do |answer|
-  - if((answer.user == current_user) && answer.persisted?)
+  - if answer.persisted?
     p= answer.body
     - if user_signed_in?
-      = link_to 'Delete answer', question_answer_path(@question, answer.id), method: :delete if((answer.user.id == current_user.id))
+      p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+      p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete if answer.user == current_user
+      p
+        = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
+          = f.label :body, "Your Answer"
+          = f.text_area :body
+          = f.submit 'Save'
+
+
+
+/- if ((answer.user == current_user) && answer.persisted?)
+/  li= answer.body
+/  - if user_signed_in?
+/    .edit-answer
+/      p= link_to 'Edit'
+/      p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete if answer.user == current_user && signed_in?
+/
+
+/- if((answer.user == current_user) && answer.persisted?)
+/  li= answer.body
+/  - if user_signed_in?
+/    p= link_to 'Edit'
+/    p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete if answer.user == current_user && signed_in?
+
+/- @question.answers.each do |answer|
+/  - if((answer.user == current_user) && answer.persisted?)
+/    p= answer.body
+/    - if user_signed_in?
+/      p= link_to 'Edit'
+/      p= link_to 'Delete answer', question_answer_path(@question, answer.id), method: :delete if((answer.user.id == current_user.id))
