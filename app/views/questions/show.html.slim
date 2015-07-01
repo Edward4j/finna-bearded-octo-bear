@@ -1,15 +1,27 @@
-h2 = @question.title
-p = @question.body
+h1= @question.title
+p= @question.body
 
 .answers
   = render 'answers'
 
 = form_for [@question, @question.answers.build], remote: true do |f|
-  .form-group
-    = f.label :body, 'Your Answer'
+  p= f.label :body, 'Your answer'
     .answer-errors
-    = f.text_area :body, class: 'form-control'
-  .form-group
-    = f.submit 'Create answer', class: 'btn btn-default'
+    = f.text_area :body
+  p= f.submit 'Create answer'
 
-= link_to 'Delete question', @question, method: :delete if((@question.user == current_user) and user_signed_in?)
+
+/h2 = @question.title
+/p = @question.body
+/
+/.answers
+/  = render 'answers'
+/= form_for [@question, @question.answers.build], remote: true do |f|
+/  .form-group
+/    = f.label :body, 'Your Answer'
+/    .answer-errors
+/    = f.text_area :body, class: 'form-control create-answer'
+/  .form-group
+/    = f.submit 'Create answer', class: 'btn btn-default'
+/
+/= link_to 'Delete question', @question, method: :delete if((@question.user == current_user) and user_signed_in?)

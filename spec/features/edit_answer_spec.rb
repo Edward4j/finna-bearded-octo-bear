@@ -6,7 +6,7 @@ feature 'Answer editing', %q{
     I want to be able to edit answer
   } do
 
-  given(:user) { create :user }
+  given!(:user) { create :user }
   given!(:question) { create :question, user: user }
   given!(:answer) { create :answer, question: question, user: user }
 
@@ -28,11 +28,12 @@ feature 'Answer editing', %q{
       end
     end
 
-    scenario 'as author try to edit his answer' do
+    scenario 'as author try to edit his answer', js: true do
       click_on('Edit')
 
       within '.answers' do
-        fill_in 'Your Answer', with: 'edited answer'
+      #save_and_open_page
+        fill_in 'Edit Answer', with: 'edited answer'
         click_on 'Save'
 
         expect(page).to_not have_content(answer.body)
