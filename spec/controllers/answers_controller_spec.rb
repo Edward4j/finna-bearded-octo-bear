@@ -3,7 +3,7 @@ require 'rails_helper'
 describe AnswersController do
   let(:user) { create(:user) }
   let!(:question) { create(:question, user: user) }
-  let(:answer) { create(:answer, question: question, user: user) }
+  let!(:answer) { create(:answer, question: question, user: user) }
 
   before { sign_in(user) }
 
@@ -38,19 +38,26 @@ describe AnswersController do
   end
 
   describe 'PATCH #update' do
-    let(:answer) { create(:answer, question: question) }
+    #let(:answer) { create(:answer, question: question) }
 
     it 'assigns the requested answer to @answer' do
-      patch :update, question_id: question, answer: attributes_for(:answer), format: :js
+      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
       expect(assigns(:answer)).to eq answer
     end
+
+    it 'assigns to question' do
+      patch :update, id: answer, question_id: question, answer: { body: "new answer body"}, format: :js
+      expect(assigns(:question)).to eq question
+    end
+
     it 'changes answer attributes' do
-      patch :update, question_id: question, answer: { body: "new answer body"}, format: :js
+      patch :update, id: answer, question_id: question, answer: { body: "new answer body"}, format: :js
       answer.reload
       expect(answer.body).to eq "new answer body"
     end
+
     it 'render update template to the updated answer' do
-      patch :update, question_id: question, answer: attributes_for(:answer), format: :js
+      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
       expect(response).to render_template :update
     end
   end

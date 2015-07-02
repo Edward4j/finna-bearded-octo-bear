@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [ :create, :destroy ]
+  before_action :authenticate_user!, only: [ :create, :update, :destroy ]
   before_action :load_question, only: :create
 
   def new
@@ -15,6 +15,12 @@ class AnswersController < ApplicationController
       flash[:notice] = "Body can't be blank"
       render :create
     end
+  end
+
+  def update
+    @answer = Answer.find(params[:id])
+    @answer.update(answers_params)
+    @question = @answer.question
   end
 
   def destroy
