@@ -4,7 +4,6 @@
     <% end %>
 <% else %>
     $('.answer_<%= @answer.id %>').replaceWith(' <%= j render @answer %> ');
-    $('.answers').html('<%= j render 'questions/answers' %>');
     $('.edit-answer-link').click(function(e) {
         e.preventDefault();
         $(this).hide();

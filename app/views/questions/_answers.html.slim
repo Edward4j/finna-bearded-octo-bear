@@ -1,6 +1,6 @@
 - @question.answers.each do |answer|
   - if answer.persisted?
-    %div{class: "answer_#{answer.id}"}
+    .div{class="answer_#{answer.id}"}
       p= answer.body
       - if user_signed_in?
         p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
@@ -10,24 +10,3 @@
             = f.label :body, "Edit Answer"
             = f.text_area :body
             = f.submit 'Save'
-
-/- if ((answer.user == current_user) && answer.persisted?)
-/  li= answer.body
-/  - if user_signed_in?
-/    .edit-answer
-/      p= link_to 'Edit'
-/      p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete if answer.user == current_user && signed_in?
-/
-
-/- if((answer.user == current_user) && answer.persisted?)
-/  li= answer.body
-/  - if user_signed_in?
-/    p= link_to 'Edit'
-/    p= link_to 'Delete answer', question_answer_path(@question, answer), method: :delete if answer.user == current_user && signed_in?
-
-/- @question.answers.each do |answer|
-/  - if((answer.user == current_user) && answer.persisted?)
-/    p= answer.body
-/    - if user_signed_in?
-/      p= link_to 'Edit'
-/      p= link_to 'Delete answer', question_answer_path(@question, answer.id), method: :delete if((answer.user.id == current_user.id))

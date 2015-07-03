@@ -2,8 +2,10 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [ :create, :update, :destroy ]
   before_action :load_question, only: :create
 
+  def index; end
+
   def new
-    @answer = Answer.new
+    @answer = @question.answers.new
   end
 
   def create
