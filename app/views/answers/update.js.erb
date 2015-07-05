@@ -1,13 +1,20 @@
 <% if @answer.errors.present? %>
     <% @answer.errors.full_messages.each do |message| %>
-    $('.answer-errors').html('<%= j message %>');
+        $errorDiv = $('<div><%= j message %></div>').addClass('answer-errors');
+        $(".container#edit-answer-" + answer_id).html($errorDiv.html());
     <% end %>
 <% else %>
     $('.answer_<%= @answer.id %>').replaceWith(' <%= j render @answer %> ');
-    $('.edit-answer-link').click(function(e) {
+$(document).on('click', '.edit-answer-link', function(e) {
         e.preventDefault();
         $(this).hide();
         answer_id = $(this).data('answerId');
         $('form#edit-answer-' + answer_id).show();
     });
 <% end %>
+
+//$(document).on 'click', '.edit-answer-link', (e) ->
+//e.preventDefault();
+//$(this).hide();
+//answer_id = $(this).data('answerId')
+//$('form#edit-answer-' + answer_id).show()

@@ -84,30 +84,30 @@ describe QuestionsController do
     sign_in_user
     context 'valid attributes' do
       it 'assigns the requested question to question' do
-        patch :update, id: question, question: attributes_for(:question)
+        patch :update, id: question, question: attributes_for(:question), format: :js
         expect(assigns(:question)).to eq question
       end
       it 'changes question attributes' do
-        patch :update, id: question, question: { title: "new title", body: "new body"}
+        patch :update, id: question, question: { title: "new title", body: "new body"}, format: :js
         question.reload
         expect(question.title).to eq "new title"
         expect(question.body).to eq "new body"
       end
       it 'redirects to the updated question' do
-        patch :update, id: question, question: attributes_for(:question)
-        expect(response).to redirect_to question
+        patch :update, id: question, question: attributes_for(:question), format: :js
+        expect(response).to render_template "questions/update"#redirect_to question
       end
     end
 
     context 'invalid attributes' do
-      before { patch :update, id: question, question: { title: "new title", body: nil} }
+      before { patch :update, id: question, question: { title: "new title", body: nil}, format: :js }
       it 'does not changes question attributes' do
         question.reload
         expect(question.title).to eq "MyString"
         expect(question.body).to eq "MyText"
       end
       it 're-renders edit view' do
-        expect(response).to render_template(:edit)
+        expect(response).to render_template "questions/update"
       end
     end
   end
@@ -117,10 +117,10 @@ describe QuestionsController do
     before { question }
 
     it 'deletes question' do
-      expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+      expect { delete :destroy, id: question, format: :js }.to change(Question, :count).by(-1)
     end
     it 'redirect to index view' do
-      delete :destroy, id: question
+      delete :destroy, id: question, format: :js
       expect(response).to redirect_to questions_path
     end
   end

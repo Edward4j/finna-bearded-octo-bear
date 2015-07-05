@@ -13,7 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require underscore
-//= require backbone
-//= require finna_bearded_octo_bear
 //= require_tree .
+
+$(document).ajaxError(function (e, xhr, settings) {
+    if (xhr.status == 401) {
+        $('.container.answer_errors').html(xhr.responseText);
+    }
+});

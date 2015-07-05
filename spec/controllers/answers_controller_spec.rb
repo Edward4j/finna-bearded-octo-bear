@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe AnswersController do
-  let(:user) { create(:user) }
+  let!(:user) { create(:user) }
   let!(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question, user: user) }
 
@@ -21,7 +21,7 @@ describe AnswersController do
       end
       it 'render create template' do
         post :create, question_id: question, answer: attributes_for(:answer), format: :js
-        expect(response).to render_template 'answers/create'#redirect_to question_path(question)
+        expect(response).to render_template 'answers/create'
       end
     end
 
@@ -38,7 +38,6 @@ describe AnswersController do
   end
 
   describe 'PATCH #update' do
-    #let(:answer) { create(:answer, question: question) }
 
     it 'assigns the requested answer to @answer' do
       patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
@@ -59,6 +58,93 @@ describe AnswersController do
     it 'render update template to the updated answer' do
       patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
       expect(response).to render_template :update
+    end
+  end
+
+  describe "DELETE #destroy" do
+    context "owner delete answer" do
+
+      it "delete answer" do
+        expect{ delete :destroy, question_id: question, id: answer, format: :js }.to change(question.answers, :count).by(-1)
+      end
+
+      it "render destroy template" do
+        delete :destroy, question_id: question, id: answer, format: :js
+        expect(response).to render_template :destroy
+      end
+    end
+
+    context "non-owner delete answer" do
+      let!(:question) { create(:question) }
+      let!(:owner) { create(:user) }
+      let!(:answer) { create(:answer, question: question, user: owner) }
+      before { answer }
+      sign_in_user
+
+      it "does not delete question" do
+        expect { delete :destroy, question_id: question, id: answer, format: :js }.to_not change(Answer, :count)
+      end
+    end
+  end
+
+  describe "POST #best" do
+    context "onwer select best answer" do
+      let!(:owner) { create(:user) }
+      let!(:question) { create(:question, user: owner) }
+      let!(:answer) { create(:answer, question: question) }
+
+      before do
+        sign_in(owner)
+        post :best, question_id: question, id: answer, format: :js
+      end
+
+      it "best answer" do
+        expect(answer.reload.best).to be_truthy
+      end
+    end
+
+    context "non-onwer select best answer" do
+      let!(:owner) { create(:user) }
+      let!(:non_owner) { create(:user) }
+      let!(:question) { create(:question, user: owner) }
+      let!(:answer) { create(:answer, question: question) }
+
+      before do
+        sign_in(non_owner)
+        post :best, question_id: question, id: answer, format: :js
+      end
+
+      it "answer is not selected as best" do
+        expect(answer.reload.best).to be false
+      end
+    end
+
+  end
+
+  describe "POST #cancel_best" do
+    context "onwer cancel best answer" do
+      sign_in_user
+      let!(:question) { create(:question, user: user) }
+      let!(:best_answer) { create(:answer, question: question, best: true) }
+
+      before { post :cancel_best, question_id: question, id: answer, format: :js }
+
+      it "cancel best answer" do
+        expect(answer.reload.best).to be false
+      end
+    end
+
+    context "non-onwer cancel best answer" do
+      let!(:owner) { create(:user) }
+      let!(:non_owner) { create(:user) }
+      let!(:question) { create(:question, user: owner) }
+      let!(:answer) { create(:answer, question: question, best: true) }
+
+      it "best answer is not cancelled" do
+        sign_in(non_owner)
+
+        expect { post :cancel_best, question_id: question, id: answer, format: :js }.not_to change { answer.reload.best }
+      end
     end
   end
 

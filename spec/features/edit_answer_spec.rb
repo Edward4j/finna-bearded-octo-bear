@@ -29,11 +29,10 @@ feature 'Answer editing', %q{
     end
 
     scenario 'as author try to edit his answer', js: true do
+      answer.reload
       click_on('Edit')
-
       within '.answers' do
-      #save_and_open_page
-        fill_in 'Edit Answer', with: 'edited answer'
+        fill_in 'answer[body]', with: 'edited answer'
         click_on 'Save'
 
         expect(page).to_not have_content(answer.body)

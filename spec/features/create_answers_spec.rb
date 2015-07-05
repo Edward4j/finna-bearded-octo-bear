@@ -13,7 +13,7 @@ feature 'User answer', %q{
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Your Answer', with: 'My Answer'
+    fill_in 'answer[body]', with: 'My Answer'
     click_on 'Create answer'
 
     expect(current_path).to eq question_path(question)
