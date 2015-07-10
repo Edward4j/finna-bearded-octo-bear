@@ -2,6 +2,10 @@
   = render @question
 .answers
   = render @question.answers
+.attachments Attachments:
+ul
+  -@question.attachments.each do |a|
+    li= a.file.file.filename
 
 = form_for [@question, @answer], remote: true do |f|
   .container.answer_errors
