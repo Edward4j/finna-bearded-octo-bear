@@ -12,4 +12,5 @@
 !/log/.keep
 /tmp
 .idea
+/public/uploads
 config/database.yml

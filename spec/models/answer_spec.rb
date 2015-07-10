@@ -10,6 +10,9 @@ RSpec.describe Answer, type: :model do
   describe "assotiations" do
     it { expect(subject).to belong_to(:question) }
     it { expect(subject).to belong_to(:user) }
+
+    it { should have_many(:attachments) }
+    it { should accept_nested_attributes_for :attachments }
   end
 
   describe "#select best" do
