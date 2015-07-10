@@ -29,6 +29,7 @@ gem 'devise'
 gem 'backbone-on-rails'
 gem 'carrierwave'
 gem 'remotipart'
+gem 'cocoon'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
