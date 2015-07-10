@@ -9,6 +9,10 @@
             = link_to "Undo best answer", cancel_best_question_answer_path(@question, answer), remote: true, method: :post
       = 'This is the Best Answer: ' if answer.best
       p= answer.body
+      .attachments Attachments:
+      ul
+        - answer.attachments.each do |a|
+          li= link_to a.file.identifier, a.file.url
       - if user_signed_in?
         p= link_to 'Delete answer', [@question, answer], remote: true, method: 'delete' if answer.user.id == current_user.id
         p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } if answer.user.id == current_user.id

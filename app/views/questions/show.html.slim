@@ -11,4 +11,8 @@ ul
   .container.answer_errors
   =f.label :body, 'Your answer'
   =f.text_area :body
+  p
+    =f.fields_for :attachments do |a|
+      = a.label :file
+      = a.file_field :file
   =f.submit 'Create answer'
