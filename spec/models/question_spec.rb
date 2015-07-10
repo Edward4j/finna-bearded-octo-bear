@@ -9,6 +9,7 @@ RSpec.describe Question, type: :model do
   end
   describe "assotiations" do
     it { should have_many(:answers).dependent(:destroy)}
+    it { should have_many(:attachments) }
     it { expect(subject).to belong_to(:user) }
   end
 
