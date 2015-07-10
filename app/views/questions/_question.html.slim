@@ -1,0 +1,15 @@
+div{class="question_#{question.id}"}
+  h2= @question.title
+  h2= @question.body
+  - if user_signed_in? and (@question.user.id == current_user.id)
+    .question_ui
+      p= link_to 'Delete question', @question, method: :delete
+      P= link_to 'Edit question', '', class: 'edit-question-link', data: { question_id: @question.id }
+      p
+        = form_for @question, remote: true, html: { id: "edit-question-#{@question.id}" } do |f|
+          .container.question_errors
+          = f.label :title, 'Edit question title'
+          = f.text_field :title
+          = f.label :body, 'Edit question body'
+          = f.text_area :body
+          = f.submit 'Save'

@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   resources :questions do
-    resources :answers
+    resources :answers do
+      post "best", on: :member
+      post "cancel_best", on: :member
+    end
   end
 
   resources :answers, only: [:destroy]

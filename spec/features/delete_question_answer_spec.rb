@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'delete answer', %q{
   In order to remove my answer
@@ -13,7 +13,6 @@ feature 'delete answer', %q{
   scenario 'authenticated user can delete his answer', js: true do
     sign_in(answer.user)
     visit question_path(answer.question)
-    save_and_open_page
     click_on 'Delete answer'
 
     expect(page).to_not have_content(answer.body)

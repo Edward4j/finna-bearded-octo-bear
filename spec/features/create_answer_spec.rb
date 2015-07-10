@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Create Answer', %q{
   In order to answer to question
@@ -6,15 +6,17 @@ feature 'Create Answer', %q{
   I want to be able create answer
 } do
 
-  given(:user) { create :user }
-  given!(:question) { create :question, user: user }
-  given!(:answer1) { create :answer, question: question, user: user }
+  # given(:user) { create :user }
+  # given!(:question) { create :question, user: user }
+  # given!(:answer1) { create :answer, question: question, user: user }
 
   scenario 'Authenticated user creates answer', js: true do
-    sign_in(question.user)
+    user = create(:user)
+    question = create(:question, user: user)
+    answer1 = question.answers.create(body: '1 body', user: user)
+    sign_in(user)
 
     visit question_path(question)
-    save_and_open_page
     fill_in 'answer[body]', with: 'Some Answer body'
     click_on 'Create answer'
 
@@ -25,15 +27,19 @@ feature 'Create Answer', %q{
     expect(current_path).to eq(question_path(question))
   end
 
-  scenario 'Authenticated user creates wrong answer' do
-    sign_in(question.user)
-
+  scenario 'Authenticated user creates wrong answer', js: true do
+    user = create(:user)
+    question = create(:question, user: user)
+    answer1 = question.answers.create(body: '1 body', user: user)
+    sign_in(user)
     visit question_path(question)
+
     click_on 'Create answer'
-    expect(page).to have_content("Answer body can't be blank.")
+    expect(page).to have_content("Body can't be blank")
   end
 
-  scenario 'Non-authenticated user tries to create answer' do
+  scenario 'Non-authenticated user tries to create answer', js: true do
+    question = create(:question)
     visit question_path(question)
     fill_in 'answer[body]', with: 'Some Answer'
     click_on 'Create answer'
