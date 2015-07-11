@@ -2,12 +2,6 @@
   = render @question
 .answers
   = render @question.answers
-.attachments Attachments:
-ul
-  - @question.attachments.each do |attachment|
-    li{id="attachment_#{attachment.id}"}
-      = link_to attachment.file.identifier, attachment.file.url
-      p= link_to "Delete attachment", polymorphic_path([@question, attachment]), remote: true, method: :delete if(user_signed_in? && (@question.user == current_user))
 
 = form_for [@question, @answer], remote: true do |f|
   .container.answer_errors
