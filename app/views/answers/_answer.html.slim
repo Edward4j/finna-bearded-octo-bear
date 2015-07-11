@@ -22,4 +22,10 @@
         = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
           = f.label :body, "Answer body"
           = f.text_area :body
+          p Attachments
+          p
+            = f.fields_for :attachments do |a|
+              = render 'answers/attachment_fields', f: a
+            .links
+              = link_to_add_association 'add attachment', f, :attachments
           = f.submit 'Save'

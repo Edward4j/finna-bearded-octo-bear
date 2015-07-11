@@ -18,4 +18,10 @@ div{class="question_#{question.id}"}
           = f.text_field :title
           = f.label :body, 'Edit question body'
           = f.text_area :body
+          p Attachments
+          p
+            = f.fields_for :attachments do |a|
+              = render 'questions/attachment_fields', f: a
+            .links
+              = link_to_add_association 'add attachment', f, :attachments
           = f.submit 'Save'
