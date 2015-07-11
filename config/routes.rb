@@ -7,7 +7,9 @@ Rails.application.routes.draw do
     resources :answers do
       post "best", on: :member
       post "cancel_best", on: :member
+      resources :attachments, only: [:destroy]
     end
+    resources :attachments, only: [:destroy]
   end
 
   resources :answers, only: [:destroy]

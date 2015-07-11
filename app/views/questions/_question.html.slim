@@ -2,8 +2,14 @@ div{class="question_#{question.id}"}
   h2= @question.title
   h2= @question.body
   - if user_signed_in? and (@question.user.id == current_user.id)
+    .attachments Attachments:
+    ul
+      - @question.attachments.each do |attachment|
+        li{id="attachment_#{attachment.id}"}
+          = link_to attachment.file.identifier, attachment.file.url
+          p= link_to "Delete attachment", polymorphic_path([@question, attachment]), remote: true, method: :delete
     .question_ui
-      p= link_to 'Delete question', @question, method: :delete
+      p= link_to 'Delete question 2', @question, method: :delete
       P= link_to 'Edit question', '', class: 'edit-question-link', data: { question_id: @question.id }
       p
         = form_for @question, remote: true, html: { id: "edit-question-#{@question.id}" } do |f|

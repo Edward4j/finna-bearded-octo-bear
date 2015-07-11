@@ -11,7 +11,7 @@ RSpec.describe Answer, type: :model do
     it { expect(subject).to belong_to(:question) }
     it { expect(subject).to belong_to(:user) }
 
-    it { should have_many(:attachments) }
+    it { should have_many(:attachments).dependent(:destroy) }
     it { should accept_nested_attributes_for :attachments }
   end
 

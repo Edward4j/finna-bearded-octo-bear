@@ -1,9 +1,14 @@
+<% if remotipart_submitted? %>
+    $(".answers").append("<%= j "#{render @answer}" %>");
+<% else %>
+    $('.answers').append("<%= j render @answer %>");
+<% end %>
 <% if @answer.errors.present? %>
     <% @answer.errors.full_messages.each do |message| %>
         $errorDiv = $('<div><%= j message %></div>').addClass('answer-errors');
         $(".container").html($errorDiv.html());
     <% end %>
 <% else %>
-    $('.answers').append('<%= j render @answer %>');
     $('.new_answer #answer_body').val('');
+    $('.new_answer .remove_fields').click();
 <% end %>
