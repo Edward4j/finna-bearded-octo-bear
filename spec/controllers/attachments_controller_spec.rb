@@ -40,7 +40,7 @@ describe AttachmentsController do
 
         it 'delete attachment' do
           expect(answer.attachments.count).to eq 1
-          expect{ delete :destroy, question_id: question, answer_id: answer, id: attachment, format: :js }.to change(answer.attachments, :count).by(-1)
+          expect{ delete :destroy, question_id: question, answer_id: answer, id: attachment, format: :js }.to change(Attachment, :count).by(-1)
         end
       end
 
