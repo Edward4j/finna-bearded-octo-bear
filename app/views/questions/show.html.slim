@@ -7,4 +7,9 @@
   .container.answer_errors
   =f.label :body, 'Your answer'
   =f.text_area :body
+  p
+    =f.fields_for :attachments do |a|
+      = render 'questions/attachment_fields', f: a
+    .links
+      = link_to_add_association 'add attachment', f, :attachments
   =f.submit 'Create answer'

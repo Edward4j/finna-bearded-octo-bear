@@ -9,6 +9,12 @@
             = link_to "Undo best answer", cancel_best_question_answer_path(@question, answer), remote: true, method: :post
       = 'This is the Best Answer: ' if answer.best
       p= answer.body
+      .attachments Attachments:
+      ul
+        - answer.attachments.each do |attachment|
+          li{id="attachment_#{attachment.id}"}
+            = link_to attachment.file.identifier, attachment.file.url
+            p= link_to "Delete attachment", polymorphic_path([@question, answer, attachment]), remote: true, method: :delete if(user_signed_in? && (answer.user == current_user))
       - if user_signed_in?
         p= link_to 'Delete answer', [@question, answer], remote: true, method: 'delete' if answer.user.id == current_user.id
         p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } if answer.user.id == current_user.id
@@ -16,4 +22,10 @@
         = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
           = f.label :body, "Answer body"
           = f.text_area :body
+          p Attachments
+          p
+            = f.fields_for :attachments do |a|
+              = render 'answers/attachment_fields', f: a
+            .links
+              = link_to_add_association 'add attachment', f, :attachments
           = f.submit 'Save'
