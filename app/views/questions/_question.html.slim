@@ -1,4 +1,12 @@
 div{class="question_#{question.id}"}
+  .total_votes
+    .votes
+      - if user_signed_in? && @question.user != current_user
+        - if current_user.vote_for(@question)
+          = link_to "Cancel"
+        - else
+          = link_to "Like"
+          = link_to "Dislike"
   h2= @question.title
   h2= @question.body
   - if user_signed_in? && (@question.user.id == current_user.id)
