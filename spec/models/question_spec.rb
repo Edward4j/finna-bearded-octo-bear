@@ -24,5 +24,6 @@ RSpec.describe Question, type: :model do
       expect { question.destroy }.to change{ Answer.count }.by(-2)
     end
   end
+  it_should_behave_like "voteable"
 
 end
