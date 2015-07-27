@@ -1,4 +1,5 @@
 require "rails_helper"
+#require_relative "acceptance_helper"
 
 shared_examples "voteable" do
   it { should have_many(:votes).dependent(:destroy) }
@@ -18,7 +19,7 @@ shared_examples "voteable" do
 
     it "many votes" do
       vote
-      create_list(:vote, 3,voteable: voteable, like: -1)
+      create_list(:vote, 3, voteable: voteable, like: -1)
       expect(voteable.total_votes).to eq -2
     end
   end

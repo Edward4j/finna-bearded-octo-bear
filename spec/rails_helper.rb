@@ -6,6 +6,7 @@ require 'rspec/rails'
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 Dir[Rails.root.join('spec/models/shared_examples/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/controllers/shared_examples/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|

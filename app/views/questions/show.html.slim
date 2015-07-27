@@ -2,6 +2,13 @@
   = render @question
 .answers
   = render @question.answers
+.votes
+  - if user_signed_in? && @question.user != current_user
+    - if current_user.vote_for(@question)
+      = link_to "Cancel", cancel_vote_question_path(@question), method: :delete, remote: true, class: 'vote-cancel', data: { type: :json }
+    - else
+      = link_to "Like", like_question_path(@question), method: :post, remote: true, data: { type: :json }, class: "vote"
+      = link_to "Dislike", dislike_question_path(@question), method: :post, remote: true, data: { type: :json }, class: "vote"
 
 = form_for [@question, @answer], remote: true, data: { type: :json } do |f|
   .container.answer_errors

@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe QuestionsController do
+
+  it_should_behave_like "voted"
+
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
 

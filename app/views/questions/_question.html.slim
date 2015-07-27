@@ -1,12 +1,12 @@
 div{class="question_#{question.id}"}
-  .total_votes
+  .total_votes= @question.total_votes
     .votes
       - if user_signed_in? && @question.user != current_user
         - if current_user.vote_for(@question)
-          = link_to "Cancel"
+          = link_to "Cancel", cancel_vote_question_path(@question), method: :delete, remote: true, class: 'vote-cancel', data: { type: :json }
         - else
-          = link_to "Like"
-          = link_to "Dislike"
+          = link_to "Like", like_question_path(@question), method: :post, remote: true, data: { type: :json }, class: "vote"
+          = link_to "Dislike", dislike_question_path(@question), method: :post, remote: true, data: { type: :json }, class: "vote"
   h2= @question.title
   h2= @question.body
   - if user_signed_in? && (@question.user.id == current_user.id)

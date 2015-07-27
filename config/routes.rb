@@ -3,13 +3,23 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "questions#index"
 
-  resources :questions do
-    resources :answers do
+  concern :voteable do
+    member do
+      post :like
+      post :dislike
+      delete :cancel_vote
+    end
+  end
+
+  resources :questions, concerns: [:voteable] do
+    resources :answers, concerns: [:voteable] do
       post "best", on: :member
       post "cancel_best", on: :member
       resources :attachments, only: [:destroy]
+      resources :votes, only: [:destroy]
     end
     resources :attachments, only: [:destroy]
+    resources :votes, only: [:destroy], shallow: true
   end
 
   resources :answers, only: [:destroy]

@@ -1,31 +1,34 @@
 require 'features/acceptance_helper'
 
-feature "Vote for question", %q{
-  In order to like or dislike question
-  As an user
-  I want to be able vote for question
-  } do
+feature "Vote to answer", %q{
+        In order to like or dislike answer
+        As an user
+        I want to be able vote for answer
+                          } do
 
   describe "Authenticated user" do
     let(:user) { create(:user) }
 
-    describe "owner question" do
-      let(:question) { create(:question, user: user) }
+    describe "owner answer" do
+      let(:question) { create(:question) }
+      let!(:answer) { create(:answer, question: question, user: user) }
 
       background do
         sign_in(user)
         visit question_path(question)
       end
 
-      scenario "vote for question" do
-        expect(page).to_not have_link "Like"
-        expect(page).to_not have_link "Dislike"
+      scenario "vote for answer" do
+        within ".answer_#{answer.id}" do
+          expect(page).to_not have_link "Like"
+          expect(page).to_not have_link "Dislike"
+        end
       end
     end
 
-    describe "non-owner question" do
+    describe "non-owner answer" do
       let(:question) { create(:question) }
-
+      let!(:answer) { create(:answer, question: question) }
 
       background do
         sign_in(user)
@@ -33,14 +36,14 @@ feature "Vote for question", %q{
       end
 
       describe "like" do
-        scenario "have link to vote for question" do
-          within ".question_#{question.id}" do
+        scenario "have link to vote for answer" do
+          within ".answer_#{answer.id}" do
             expect(page).to have_link "Like"
           end
         end
 
-        scenario "vote for question", js: true do
-          within ".question_#{question.id}" do
+        scenario "vote for answer", js: true do
+          within ".answer_#{answer.id}" do
             click_on "Like"
 
             expect(page).to_not have_link "Like"
@@ -52,14 +55,14 @@ feature "Vote for question", %q{
       end
 
       describe "dislike" do
-        scenario "have link to vote for question" do
-          within ".question_#{question.id}" do
+        scenario "have link to vote for answer" do
+          within ".answer_#{answer.id}" do
             expect(page).to have_link "Dislike"
           end
         end
 
-        scenario "vote for question", js: true do
-          within ".question_#{question.id}" do
+        scenario "vote for answer", js: true do
+          within ".answer_#{answer.id}" do
             click_on "Dislike"
 
             expect(page).to_not have_link "Like"
@@ -72,21 +75,27 @@ feature "Vote for question", %q{
     end
   end
 
+
   describe "non-authenticated user" do
     let(:question) { create(:question) }
+    let!(:answer) { create(:answer, question: question) }
 
-    scenario "vote for question" do
+    scenario "vote for answer" do
       visit question_path(question)
 
-      expect(page).to_not have_link "Like"
-      expect(page).to_not have_link "Dislike"
+      within ".answer_#{answer.id}" do
+        expect(page).to_not have_link "Like"
+        expect(page).to_not have_link "Dislike"
+      end
     end
+
   end
 
-  describe "owner cancel vote " do
+  describe "owner cancel vote" do
     let(:user) { create(:user) }
     let(:question) { create(:question) }
-    let!(:vote) { create(:vote, voteable: question, user: user) }
+    let(:answer) { create(:answer, question: question) }
+    let!(:vote) { create(:vote, voteable: answer, user: user) }
 
     background do
       sign_in(user)
@@ -94,13 +103,13 @@ feature "Vote for question", %q{
     end
 
     scenario "have link" do
-      within ".question_#{question.id}" do
+      within ".answer_#{answer.id}" do
         expect(page).to have_link "Cancel"
       end
     end
 
     scenario "cancel vote", js: true do
-      within ".question_#{question.id}" do
+      within ".answer_#{answer.id}" do
         click_on "Cancel"
 
         expect(page).to have_content "0"
@@ -109,4 +118,5 @@ feature "Vote for question", %q{
       end
     end
   end
+
 end
