@@ -3,7 +3,7 @@
 .answers
   = render @question.answers
 
-= form_for [@question, @answer], remote: true do |f|
+= form_for [@question, @answer], remote: true, data: { type: :json } do |f|
   .container.answer_errors
   =f.label :body, 'Your answer'
   =f.text_area :body
