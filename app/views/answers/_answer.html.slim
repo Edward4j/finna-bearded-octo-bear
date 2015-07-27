@@ -1,6 +1,7 @@
 - if answer.persisted?
   div{class="answer"}
     div{class="answer_#{answer.id}"}
+      = render 'votes/vote', votable: answer, type: "answer"
       p
         - if @question.user == current_user
           - unless answer.best

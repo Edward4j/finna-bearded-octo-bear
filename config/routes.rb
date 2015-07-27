@@ -7,7 +7,17 @@ Rails.application.routes.draw do
     resources :answers do
       post "best", on: :member
       post "cancel_best", on: :member
+      member do
+        post "vote_up"
+        post "vote_down"
+        delete "cancel_vote"
+      end
       resources :attachments, only: [:destroy]
+    end
+    member do
+      post "vote_up"
+      post "vote_down"
+      delete "cancel_vote"
     end
     resources :attachments, only: [:destroy]
   end
