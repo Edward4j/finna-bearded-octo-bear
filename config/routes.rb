@@ -4,25 +4,30 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   resources :questions do
-    resources :answers do
-      post "best", on: :member
-      post "cancel_best", on: :member
-      member do
-        post "vote_up"
-        post "vote_down"
-        delete "cancel_vote"
-      end
-      resources :attachments, only: [:destroy]
-    end
     member do
       post "vote_up"
       post "vote_down"
       delete "cancel_vote"
     end
+    resources :answers, only: [:create, :update, :destroy, :vote_up, :vote_down, :cancel_vote] do
+
+    post "best", on: :member
+    post "cancel_best", on: :member
+
+    resources :attachments, only: [:destroy]
+    end
+
     resources :attachments, only: [:destroy]
   end
 
   resources :answers, only: [:destroy]
+  resources :answers do
+    member do
+      post "vote_up"
+      post "vote_down"
+      delete "cancel_vote"
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
