@@ -13,6 +13,8 @@ RSpec.describe Question, type: :model do
     it { should have_many(:answers).dependent(:destroy)}
     it { should have_many(:attachments).dependent(:destroy) }
     it { expect(subject).to belong_to(:user) }
+
+    it { should have_many(:votes).dependent(:destroy) }
   end
 
   describe "by removing question answers removing too" do

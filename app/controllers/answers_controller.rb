@@ -2,6 +2,8 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [ :index, :create, :update, :destroy, :best, :cancel_best ]
   before_action :load_question_and_answer, only: [:index, :new, :create, :update, :destroy, :best, :cancel_best]
 
+  include Voted
+
   def index; end
 
   def new

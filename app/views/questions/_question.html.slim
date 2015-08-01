@@ -1,4 +1,5 @@
 div{class="question_#{question.id}"}
+  = render 'votes/vote', votable: @question, type: "question"
   h2= @question.title
   h2= @question.body
   - if user_signed_in? && (@question.user.id == current_user.id)
