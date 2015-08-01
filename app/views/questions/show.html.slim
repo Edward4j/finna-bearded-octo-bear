@@ -13,3 +13,5 @@
     .links
       = link_to_add_association 'add attachment', f, :attachments
   =f.submit 'Create answer'
+
+= subscribe_to "/questions/#{@question.id}/answers"

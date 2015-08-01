@@ -11,4 +11,8 @@
 <% else %>
     $('.new_answer #answer_body').val('');
     $('.new_answer .remove_fields').click();
+
+    <% publish_to "/questions/#{@question.id}/answers" do %>
+      $('.answers').append("<%= j render @answer %>");
+    <% end %>
 <% end %>
