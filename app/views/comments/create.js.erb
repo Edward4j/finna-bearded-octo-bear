@@ -1,0 +1,18 @@
+<% if @comment.errors.any? %>
+  <% @comment.errors.full_messages.each do |message| %>
+    $errorDiv = $('<div><%= j message %></div>').addClass('comment-errors');
+    $(".comments-links").html($errorDiv.html());
+  <% end %>
+<% else %>
+  <% @question = @comment.commentable_type == 'Question' ? @comment.commentable : @comment.commentable.question %>
+
+  <% publish_to "/questions/#{@question.id}/comments" do %>
+    $("#comments_<%= @commentable.class.name %>_<%= @commentable.id %>").append('<%= j render partial: 'comments/comment', locals: {comment: @comment} %>');
+  <% end %>
+
+  $('form#add-comment-<%= @commentable.id %>-<%= @commentable.class.name %>').hide();
+  $("#comment_body").val("");
+<% end %>
+
+$(document).ready(ready);
+$(document).on('page:load', ready);

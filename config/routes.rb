@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       post "vote_down"
       delete "cancel_vote"
     end
+    resources :comments, :defaults => { :commentable => 'question' }
     resources :answers, only: [:create, :update, :destroy, :vote_up, :vote_down, :cancel_vote] do
 
     post "best", on: :member
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
 
   resources :answers, only: [:destroy]
   resources :answers do
+    resources :comments, :defaults => { :commentable => 'answer' }
     member do
       post "vote_up"
       post "vote_down"
