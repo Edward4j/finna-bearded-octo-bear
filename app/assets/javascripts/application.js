@@ -16,6 +16,8 @@
 //= require jquery.remotipart
 //= require cocoon
 //= require turbolinks
+//= require handlebars.runtime
+//= require_tree ./templates
 //= require_tree .
 
 $(document).ajaxError(function (e, xhr, settings) {
