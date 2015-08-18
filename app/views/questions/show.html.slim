@@ -1,6 +1,6 @@
-.question
+.question data-question-id="#{ @question.id }"
   = render @question
-.answers data={question_id: "#{@question.id}" }
+.answers
   = render @question.answers
 
 = form_for [@question, @answer], remote: true do |f|
@@ -16,4 +16,3 @@
 
 = subscribe_to "/questions/#{@question.id}/answers"
 = subscribe_to "/questions/#{@question.id}/comments"
-= include_gon

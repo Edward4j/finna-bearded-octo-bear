@@ -1,4 +1,4 @@
-.comments-links id= "comments_#{commentable_type}_#{commentable.id}"
+.comments-stuff id= "comments_#{commentable_type}_#{commentable.id}"
   - if user_signed_in?
     p.add-comment
       = link_to 'add a comment', '', class: 'add-comment-link', data: { commentable_id: commentable.id, commentable_type: commentable_type }
@@ -7,7 +7,10 @@
     p= f.label :body, "Your Comment"
     p= f.text_area :body
     p= f.submit 'Add Comment'
+    p= link_to 'cancel comment', '', class: 'cancel-comment'
 
-  p.comments
+  .comments-list
     - commentable.comments.each do |comment|
-      = render 'comments/comment', comment: comment
+      - if comment.persisted?
+        p.comment-content id= "comment-#{comment.id}"
+          = comment.body

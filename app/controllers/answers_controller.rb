@@ -16,7 +16,9 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.save
         format.js do
-          PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
+          PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json(include: :attachments) #, rating: @answer.rating, attachments: @answer.attachments }.to_json
+          #render json: { answer: @answer, rating: @answer.rating, attachments: @answer.attachments }
+          #PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
           #render @answer if user_id == @answer.user
           render nothing: true
         end
