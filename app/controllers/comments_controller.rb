@@ -12,6 +12,7 @@ class CommentsController < ApplicationController
       render json: @comment
       flash.now[:notice] = 'Your comment successfully created.'
     else
+      render json: @comment.errors, status: :unprocessable_entity
       flash.now[:notice] = "Body can't be blank"
     end
   end

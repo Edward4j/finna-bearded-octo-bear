@@ -16,7 +16,7 @@ feature 'Create comment', %q{
     visit question_path(question)
     within(".answer_#{answer.id}") do
       click_on 'add a comment'
-      fill_in 'Your Comment', with: 'Test content'
+      fill_in 'comment[body]', with: 'Test content'
       click_on 'Add Comment'
     end
 
@@ -29,11 +29,11 @@ feature 'Create comment', %q{
     visit question_path(question)
     within(".answer_#{answer.id}") do
       click_on 'add a comment'
-      fill_in 'Your Comment', with: ''
+      fill_in 'comment[body]', with: ''
       click_on 'Add Comment'
     end
 
-    expect(page).to have_content "Body can't be blank"
+    expect(page).to have_content "body can't be blank"
   end
 
 

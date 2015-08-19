@@ -18,8 +18,14 @@ ready = ->
   $('form.new_comment').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     add_comment(response)
-    $('textarea#comment_content').val("")
-    $(this).hide()
+    $('textarea#comment_body').val("")
+  .bind 'ajax:error', (e, xhr, status, error) ->
+    errors = $.parseJSON(xhr.responseText)
+    console.log($(this))
+    form = $(this)
+    $.each errors, (index, value) ->
+      form.find('.comment-errors').append('<p>' + index + ' ' + value + '</p>')
+
 
   questionId = $('.question').data('questionId')
   PrivatePub.subscribe "/questions/" + questionId + "/comments", (data, channel) ->

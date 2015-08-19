@@ -29,9 +29,9 @@ describe CommentsController do
 
       it 'redirects to show @question' do
         post :create, question_id: question, commentable: 'questions',
-          comment: attributes_for(:comment), format: :js
+          comment: attributes_for(:comment), format: :json
 
-        expect(response).to render_template("comments/create")
+        expect(response).to be_success
       end
     end
 
@@ -45,11 +45,11 @@ describe CommentsController do
         }.to_not change(Comment, :count)
       end
 
-      it 'redirect to @question' do
+      it 'return 422 status' do
         post :create, question_id: question, commentable: 'questions',
-          comment: attributes_for(:comment, :invalid), format: :js
+          comment: attributes_for(:comment, :invalid), format: :json
 
-        expect(response).to render_template("comments/create")
+        expect(response.status).to eq 422
       end
     end
 
@@ -74,9 +74,9 @@ describe CommentsController do
 
       it 'redirects to show @question' do
         post :create, answer_id: answer, commentable: 'answers',
-          comment: attributes_for(:comment), format: :js
+          comment: attributes_for(:comment), format: :json
 
-        expect(response).to render_template("comments/create")
+        expect(response).to be_success
       end
     end
 
@@ -90,11 +90,11 @@ describe CommentsController do
         }.to_not change(Comment, :count)
       end
 
-      it 'redirect to @question' do
+      it 'returns error status' do
         post :create, answer_id: answer, commentable: 'answers',
-          comment: attributes_for(:comment, :invalid), format: :js
+          comment: attributes_for(:comment, :invalid), format: :json
 
-        expect(response).to render_template("comments/create")
+        expect(response).to_not be_success
       end
     end
   end

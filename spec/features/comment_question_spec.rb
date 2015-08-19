@@ -28,7 +28,7 @@ feature 'Create comment', %q{
     fill_in 'Your Comment', with: ''
     click_on 'Add Comment'
 
-    expect(page).to have_content "Body can't be blank"
+    expect(page).to have_content "body can't be blank"
   end
 
   scenario 'unautenticated user tries to create question' do
