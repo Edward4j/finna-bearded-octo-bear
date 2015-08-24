@@ -2,7 +2,14 @@ div{class="question_#{question.id}"}
   = render 'votes/vote', votable: @question, type: "question"
   h2= @question.title
   h2= @question.body
+  = render 'comments/comments', commentable: @question, commentable_type: "Question"
   - if user_signed_in? && (@question.user.id == current_user.id)
+    .comments Comments:
+    ul
+      - @question.comments.each do |comment|
+        li{id="comment_#{comment.id}"}
+          = comment.body
+          p= link_to "Delete comment", polymorphic_path([@question, comment]), remote: true, method: :delete
     .attachments Attachments:
     ul
       - @question.attachments.each do |attachment|

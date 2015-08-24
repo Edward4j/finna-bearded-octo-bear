@@ -12,9 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require private_pub
 //= require jquery.remotipart
 //= require cocoon
 //= require turbolinks
+//= require handlebars.runtime
+//= require_tree ./templates
 //= require_tree .
 
 $(document).ajaxError(function (e, xhr, settings) {

@@ -1,4 +1,4 @@
-.question
+.question data-question-id="#{ @question.id }"
   = render @question
 .answers
   = render @question.answers
@@ -13,3 +13,6 @@
     .links
       = link_to_add_association 'add attachment', f, :attachments
   =f.submit 'Create answer'
+
+= subscribe_to "/questions/#{@question.id}/answers"
+= subscribe_to "/questions/#{@question.id}/comments"

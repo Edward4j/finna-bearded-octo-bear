@@ -22,10 +22,10 @@ describe AnswersController do
         expect(answer.user_id).to eq user.id
         expect(answer.question_id).to eq question.id
       end
-      it 'render create template' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :js
-        expect(response).to render_template 'answers/create'
-      end
+      # it 'render create template' do
+      #   post :create, question_id: question, answer: attributes_for(:answer), format: :js
+      #   expect(response).to render_template 'answers/create'
+      # end
     end
 
     context 'with invalid attributes' do
